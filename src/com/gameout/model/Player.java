@@ -21,6 +21,7 @@ public class Player {
         this.parentTeam = parentTeam;
         ip = null;
         type = PlayerType.Guest;
+        state = PlayerState.Active;
         x = 0;
         y = 0;
         vx = 1;

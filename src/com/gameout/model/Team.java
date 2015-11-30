@@ -11,5 +11,9 @@ public class Team {
     public Team(GameState parentGameState, int numberOfPlayers) {
         this.parentGameState = parentGameState;
         this.players = new Player[numberOfPlayers];
+
+        for(int i = 0; i < numberOfPlayers; i++) {
+            this.players[i] = new Player(this);
+        }
     }
 }
