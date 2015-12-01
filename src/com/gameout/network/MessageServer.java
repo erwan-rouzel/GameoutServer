@@ -44,7 +44,6 @@ public class MessageServer extends AbstractServer implements Runnable {
                         receivePacket.getAddress()
                 );
 
-                /*
                 sendData = GameoutUtils.stringToBytes("UDP is here!");
 
                 DatagramPacket sendPacket = new DatagramPacket(
@@ -53,7 +52,6 @@ public class MessageServer extends AbstractServer implements Runnable {
                         receivePacket.getAddress(),
                         receivePacket.getPort()
                 );
-                */
 
                 udpSocket.send(sendPacket);
 
