@@ -21,8 +21,6 @@ public class GameoutClient {
 
     public GameoutClient() throws IOException {
         ipAddress = InetAddress.getByName(SERVER_IP);
-        udpSocket = new DatagramSocket();
-
     }
 
     public void sendMessageTCP(String message) throws IOException {
@@ -38,6 +36,8 @@ public class GameoutClient {
     }
 
     public void sendMessageUDP(String message) throws IOException {
+        udpSocket = new DatagramSocket();
+
         byte[] sendData = message.getBytes(Charset.forName("UTF-8"));
         byte[] receiveData = new byte[1024];
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, UDP_PORT);

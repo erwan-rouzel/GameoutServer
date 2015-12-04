@@ -89,6 +89,6 @@ class GameoutServer {
     {
         new Thread(new SessionServer(9475)).start();
         new Thread(new MessageServer(9476)).start();
-        new Thread(new StreamServer(9477)).start();
+        new Thread(new StreamServer(9500)).start();
     }
 }

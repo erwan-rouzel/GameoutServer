@@ -40,7 +40,6 @@ public class SessionServer extends AbstractServer implements Runnable {
                 /* Process TCP Packets */
                 // Open output stream
                 // Accept new TCP client
-                log("Session Server accepting connection");
                 client = tcpSocket.accept();
                 InputStream input = client.getInputStream();
                 DataOutputStream output = new DataOutputStream(client.getOutputStream());

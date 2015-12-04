@@ -15,6 +15,7 @@ import java.util.Map;
  * Created by erwan on 21/11/2015.
  */
 public class StreamServer extends AbstractServer implements Runnable {
+    public static int counter = 0;
     public static final int PLAYER_PORT=9500;
     public StreamServer(int port) {
         super(port);
@@ -63,6 +64,8 @@ public class StreamServer extends AbstractServer implements Runnable {
                                         player.ip,
                                         PLAYER_PORT
                                 );
+
+                                log("Sending game state to " + player.ip.toString() + " - ball=(" + gameState.ball.x + ", " + gameState.ball.y + ")");
 
                                 udpSocket.send(sendPacket);
                             }
@@ -179,7 +182,9 @@ public class StreamServer extends AbstractServer implements Runnable {
     }
 
     public static void updateGameState(GameState state) {
-        state.ball.x += 1;
-        state.ball.y += 1;
+        state.ball.x = (short) (Math.round(Math.cos(counter/10.0)*3000.0) + 5000);
+        state.ball.y = (short) (Math.round(Math.sin(counter/10.0)*3000.0) + 5000);
+
+        counter++;
     }
 }

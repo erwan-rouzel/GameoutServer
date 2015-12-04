@@ -32,11 +32,18 @@ public class TestClient {
         System.out.println("Message 1");
         String gsonSession = gson.toJson(session);
         client.sendMessageTCP(gsonSession);
-        Thread.sleep(1000);
+        Thread.sleep(200);
         System.out.println("Message 2");
         client.sendMessageTCP(gson.toJson(session));
-        Thread.sleep(1000);
+        Thread.sleep(200);
         System.out.println("Message 3");
-        client.sendMessageUDP("Hello UDP!");
+
+        byte[] emptyUdpMessage = new byte[24];
+        emptyUdpMessage[3] = 1;
+        client.sendMessageUDP(GameoutUtils.bytesToString(emptyUdpMessage));
+        Thread.sleep(200);
+        client.sendMessageUDP(GameoutUtils.bytesToString(emptyUdpMessage));
+        Thread.sleep(200);
+        client.sendMessageUDP(GameoutUtils.bytesToString(emptyUdpMessage));
     }
 }
