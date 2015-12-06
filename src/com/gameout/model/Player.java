@@ -1,12 +1,18 @@
 package com.gameout.model;
 
+import com.gameout.network.GameoutUtils;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.net.InetAddress;
+import java.util.ArrayList;
 
 /**
  * Created by erwan on 14/11/2015.
  */
 
-public class Player {
+public class Player extends GameObject {
+    public byte id;
     public Team parentTeam;
     public InetAddress ip;
     public PlayerType type;
@@ -17,7 +23,8 @@ public class Player {
     public short vy;
 
 
-    public Player(Team parentTeam) {
+    public Player(Team parentTeam, byte id) {
+        this.id = id;
         this.parentTeam = parentTeam;
         ip = null;
         type = PlayerType.Guest;

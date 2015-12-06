@@ -1,7 +1,9 @@
 package com.gameout.network;
 
 import java.nio.ByteBuffer;
+import java.nio.ShortBuffer;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -39,13 +41,13 @@ public class GameoutUtils {
     }
 
     public static byte[] shortToBytes(short x) {
-        ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+        ByteBuffer buffer = ByteBuffer.allocate(Short.BYTES);
         buffer.putShort(x);
         return buffer.array();
     }
 
     public static byte[] intToBytes(int x) {
-        ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+        ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
         buffer.putInt(x);
         return buffer.array();
     }
@@ -54,5 +56,15 @@ public class GameoutUtils {
         byte[] buffer = {b1, b2, b3, b4, b5, b6, b7, b8};
         ByteBuffer wrapped = ByteBuffer.wrap(buffer); // big-endian by default
         return wrapped.getLong();
+    }
+
+    public static String implode(String glue, ArrayList<String> strArray)
+    {
+        String ret = "";
+        for(int i=0;i<strArray.size();i++)
+        {
+            ret += (i == strArray.size() - 1) ? strArray.get(i) : strArray.get(i) + glue;
+        }
+        return ret;
     }
 }

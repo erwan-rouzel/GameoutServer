@@ -1,4 +1,4 @@
-package com.gameout.network;
+package com.gameout.exception;
 
 /**
  * Created by erwan on 21/11/2015.

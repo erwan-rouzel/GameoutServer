@@ -55,10 +55,7 @@ public class SessionServer extends AbstractServer implements Runnable {
                     reader.setLenient(true);
                     GameSession session = gson.fromJson(reader, GameSession.class);
 
-                    log("ID=" + session.id);
-                    log("timestamp=" + session.timestamp);
-                    log("nb_players_team1=" + session.numberOfPlayersInTeam1);
-                    log("nb_players_team2=" + session.numberOfPlayersInTeam2);
+                    log(session.toString());
 
                     if (!GameoutServer.gameStateList.containsKey(session.id)) {
                         log("Session does not exist. Starting new game !");

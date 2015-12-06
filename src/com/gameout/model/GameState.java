@@ -3,7 +3,7 @@ package com.gameout.model;
 /**
  * Created by erwan on 14/11/2015.
  */
-public class GameState {
+public class GameState extends GameObject {
     public int id;
     public Ball ball;
     public Team[] teams;

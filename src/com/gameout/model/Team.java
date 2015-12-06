@@ -3,7 +3,7 @@ package com.gameout.model;
 /**
  * Created by erwan on 14/11/2015.
  */
-public class Team {
+public class Team extends GameObject {
     public GameState parentGameState;
     public Player[] players;
     public byte score;
@@ -12,8 +12,13 @@ public class Team {
         this.parentGameState = parentGameState;
         this.players = new Player[numberOfPlayers];
 
-        for(int i = 0; i < numberOfPlayers; i++) {
-            this.players[i] = new Player(this);
+        for(byte i = 0; i < numberOfPlayers; i++) {
+            this.players[i] = new Player(this, i);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "{score=" + score + "}";
     }
 }
