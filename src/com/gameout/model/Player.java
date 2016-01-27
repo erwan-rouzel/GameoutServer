@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 
 public class Player extends GameObject {
+    public static int WIDTH = 1000;
     public byte id;
     public Team parentTeam;
     public InetAddress ip;
@@ -21,6 +22,8 @@ public class Player extends GameObject {
     public short y;
     public short vx;
     public short vy;
+    public short rx;
+    public short ry;
 
 
     public Player(Team parentTeam, byte id) {
@@ -33,5 +36,7 @@ public class Player extends GameObject {
         y = 0;
         vx = 1;
         vy = 1;
+        rx = HVPoint.WIDTH_REF / 16;
+        ry = HVPoint.HEIGHT_REF / 80;
     }
 }

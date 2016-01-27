@@ -8,11 +8,15 @@ public class Ball extends GameObject {
     public short y;
     public short vx;
     public short vy;
+    public short rx;
+    public short ry;
 
     public Ball() {
-        x = 0;
-        y = 0;
-        vx = 1;
-        vy = 1;
+        x = HVPoint.WIDTH_REF / 2;
+        y = HVPoint.HEIGHT_REF / 2;
+        vx = 20;
+        vy = 30;
+        rx = HVPoint.WIDTH_REF / 80;
+        ry = HVPoint.WIDTH_REF / 80;
     }
 }

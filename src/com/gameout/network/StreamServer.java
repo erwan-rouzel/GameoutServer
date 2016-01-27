@@ -1,8 +1,6 @@
 package com.gameout.network;
 
-import com.gameout.model.GameState;
-import com.gameout.model.Player;
-import com.gameout.model.Team;
+import com.gameout.model.*;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -15,6 +13,7 @@ import java.util.Map;
  * Created by erwan on 21/11/2015.
  */
 public class StreamServer extends AbstractServer implements Runnable {
+    private long timePrevious;
     public static int counter = 0;
     public StreamServer(int port) {
         super(port);
@@ -39,7 +38,7 @@ public class StreamServer extends AbstractServer implements Runnable {
         while(true) {
             /* Process UDP Packets */
             try {
-                Thread.sleep(100);
+                Thread.sleep(20);
             } catch (InterruptedException e) {
                 log(e);
             }
@@ -80,9 +79,58 @@ public class StreamServer extends AbstractServer implements Runnable {
         }
     }
 
-    public static void updateGameState(GameState state) {
-        state.ball.x = (short) (Math.round(Math.cos(counter/10.0)*3000.0) + 5000);
-        state.ball.y = (short) (Math.round(Math.sin(counter/10.0)*3000.0) + 5000);
+    public static void updateGameState(GameState gameState) {
+        Ball ball = gameState.ball;
+        Player pBottom = gameState.teams[0].players[0];
+        //Player pTop = gameState.teams[0].players[0];
+
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+
+        //TODO : ball.x < ball.radX
+        //et utiliser valeur absolue au lieu du *-1
+        if(     (ball.x > HVPoint.WIDTH_REF) ||
+                (ball.x < 0) ) {
+            ball.vx *= -1;
+        }
+
+        if(     (ball.y < 0) ) {
+            ball.vy *= -1;
+        }
+
+        /*
+        if(ball.y > pBottom.y) {
+            if(     (ball.x >= pBottom.x - pBottom.WIDTH/2) &&
+                    (ball.x <= pBottom.x + pBottom.WIDTH/2) ) {
+                ball.vy *= -1;
+            }
+        }
+        */
+
+        // Rebond sur la raquette
+        if ( ! (
+                ( ball.vy < 0 )
+                        || ((ball.y + ball.ry) < (pBottom.y - pBottom.ry))
+                        || ((ball.y - ball.ry) > (pBottom.y + pBottom.ry))
+                        || ((ball.x + ball.rx) < (pBottom.x - pBottom.rx))
+                        || ((ball.x - ball.rx) > (pBottom.y + pBottom.ry))
+        )   )
+        {
+            ball.vy = (short) -Math.abs(ball.vy);
+            // incrementons le score, la balle a été envoyée
+            //CurPfp.pfp.incScoreBidon();
+            // agmentons la vitesse de la balle lorsque le score augmente
+            //CurPfp.pfp.balleRegleVitesse();
+        }
+
+        if(ball.y > HVPoint.HEIGHT_REF) {
+            // Player bottom lose
+
+            ball.x = HVPoint.WIDTH_REF / 2;
+            ball.y = HVPoint.HEIGHT_REF / 2;
+        }
+
+        //state.ball.y = (short) (Math.round(Math.sin(counter/10.0)*3000.0) + 5000);
 
         counter++;
     }

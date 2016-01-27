@@ -4,6 +4,7 @@ import com.gameout.exception.MalformedPlayerMessageException;
 import com.gameout.model.GameState;
 import com.gameout.model.Player;
 import com.gameout.model.Team;
+import com.oracle.tools.packager.Log;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -144,8 +145,12 @@ public class GameoutServerHelper {
         short vx =          GameoutUtils.bytesToShort(m[20], m[21]);
         short vy =          GameoutUtils.bytesToShort(m[22], m[23]);
 
-        // We retrive the corresponding player and update his datas
+        // We retrieve the corresponding player and update his datas
         GameState state = GameoutServer.gameStateList.get(idGame);
+        LogHelper.log(GameoutServerHelper.class.getSimpleName(), "idTeam=" + idTeam);
+        LogHelper.log(GameoutServerHelper.class.getSimpleName(), state.toString());
+        LogHelper.log(GameoutServerHelper.class.getSimpleName(), state.teams.toString());
+
         Team team = state.teams[idTeam];
         Player player = team.players[idPlayer];
 

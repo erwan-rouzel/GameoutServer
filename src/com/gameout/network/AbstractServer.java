@@ -17,15 +17,10 @@ public abstract class AbstractServer {
     }
 
     protected void log(String message) {
-        Date now = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
-        System.out.println("[" + sdf.format(now) + "]-[" + this.getClass().getSimpleName() + "] " + message);
+        LogHelper.log(this.getClass().getSimpleName(), message);
     }
 
     protected void log(Exception exception) {
-        Date now = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
-        System.out.println("[" + sdf.format(now) + "]-[" + this.getClass().getSimpleName() + "] " + exception.toString());
-        exception.printStackTrace();
+        LogHelper.log(this.getClass().getSimpleName(), exception);
     }
 }
