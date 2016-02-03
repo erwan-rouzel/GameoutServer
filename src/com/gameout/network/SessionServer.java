@@ -1,7 +1,7 @@
 package com.gameout.network;
 
-import com.gameout.model.GameSession;
-import com.gameout.model.GameState;
+import com.gameout.model.*;
+import com.gameout.utils.GameoutUtils;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
@@ -40,6 +40,7 @@ public class SessionServer extends AbstractServer implements Runnable {
                 /* Process TCP Packets */
                 // Open output stream
                 // Accept new TCP client
+                GameInit gameInit;
                 client = tcpSocket.accept();
                 InputStream input = client.getInputStream();
                 DataOutputStream output = new DataOutputStream(client.getOutputStream());
@@ -59,14 +60,15 @@ public class SessionServer extends AbstractServer implements Runnable {
 
                     if (!GameoutServer.gameStateList.containsKey(session.id)) {
                         log("Session does not exist. Starting new game !");
-                        output.writeBytes("OK\n");
-                        startGame(session);
-                        client.close();
+                        gameInit = startGame(session);
                     } else {
-                        output.writeBytes("KO\n");
-                        log("Session already exist. Doing nothing.");
+                        log("Session already exist. Adding player to existing session.");
+                        gameInit = updateGame(session);
                         client.close();
                     }
+
+                    output.writeBytes(new Gson().toJson(gameInit));
+                    client.close();
                 }
             }
         } catch(Exception e) {
@@ -74,9 +76,16 @@ public class SessionServer extends AbstractServer implements Runnable {
         }
     }
 
-    public static void startGame(GameSession session) {
+    public static GameInit startGame(GameSession session) {
         GameState state = new GameState(session);
         GameoutServer.gameStateList.put(state.id, state);
+        return new GameInit(0, 0);
+    }
+
+    public static GameInit updateGame(GameSession session) {
+        GameState state = GameoutServer.gameStateList.get(session.id);
+        state.status = GameStatus.RUNNING;
+        return new GameInit(1, 0);
     }
 
     public static void endGame(long sessionId) {

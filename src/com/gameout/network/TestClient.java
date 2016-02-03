@@ -1,6 +1,7 @@
 package com.gameout.network;
 
 import com.gameout.model.GameSession;
+import com.gameout.utils.GameoutUtils;
 import com.google.gson.Gson;
 
 /**

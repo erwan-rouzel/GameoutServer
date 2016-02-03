@@ -1,4 +1,4 @@
-package com.gameout.network;
+package com.gameout.utils;
 
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
@@ -66,5 +66,11 @@ public class GameoutUtils {
             ret += (i == strArray.size() - 1) ? strArray.get(i) : strArray.get(i) + glue;
         }
         return ret;
+    }
+
+    public static short randomWithRange(int min, int max)
+    {
+        short range = (short) ((max - min) + 1);
+        return (short) ((Math.random() * range) + min);
     }
 }

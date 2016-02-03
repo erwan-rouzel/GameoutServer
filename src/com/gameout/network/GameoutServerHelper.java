@@ -2,9 +2,10 @@ package com.gameout.network;
 
 import com.gameout.exception.MalformedPlayerMessageException;
 import com.gameout.model.GameState;
+import com.gameout.model.GameStatus;
 import com.gameout.model.Player;
 import com.gameout.model.Team;
-import com.oracle.tools.packager.Log;
+import com.gameout.utils.GameoutUtils;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class GameoutServerHelper {
     public static byte[] getGameStateMessage(GameState gameState) {
         /*
         8 octets : timestamp
+        1 octet : status
         1 octet : incrément
         3 octets : scores (entre 0 et 9)
         2 octets : X balle
@@ -61,6 +63,8 @@ public class GameoutServerHelper {
         message.add(buffer[5]);
         message.add(buffer[6]);
         message.add(buffer[7]);
+
+        message.add(gameState.status);
 
         message.add(increment);
         message.add(score1);
@@ -147,19 +151,21 @@ public class GameoutServerHelper {
 
         // We retrieve the corresponding player and update his datas
         GameState state = GameoutServer.gameStateList.get(idGame);
-        LogHelper.log(GameoutServerHelper.class.getSimpleName(), "idTeam=" + idTeam);
-        LogHelper.log(GameoutServerHelper.class.getSimpleName(), state.toString());
-        LogHelper.log(GameoutServerHelper.class.getSimpleName(), state.teams.toString());
+        if(state == null) {
+            LogHelper.log(GameoutServerHelper.class.getSimpleName(), "Unknown game session with idGame=" + idGame);
 
-        Team team = state.teams[idTeam];
-        Player player = team.players[idPlayer];
+            return null;
+        } else {
+            Team team = state.teams[idTeam];
+            Player player = team.players[idPlayer];
 
-        player.ip = ip;
-        player.x = x;
-        player.y = y;
-        player.vx = vx;
-        player.vy = vy;
+            player.ip = ip;
+            player.x = x;
+            player.y = y;
+            player.vx = vx;
+            player.vy = vy;
 
-        return player;
+            return player;
+        }
     }
 }

@@ -19,6 +19,14 @@ public class Team extends GameObject {
         }
     }
 
+    public void incrementScore() {
+        score++;
+    }
+
+    public void initScore() {
+        score = 0;
+    }
+
     @Override
     public String toString() {
         return "{score=" + score + "}";

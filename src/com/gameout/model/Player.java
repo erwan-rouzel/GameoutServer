@@ -1,11 +1,6 @@
 package com.gameout.model;
 
-import com.gameout.network.GameoutUtils;
-
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.net.InetAddress;
-import java.util.ArrayList;
 
 /**
  * Created by erwan on 14/11/2015.

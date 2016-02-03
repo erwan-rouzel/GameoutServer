@@ -1,6 +1,6 @@
 package com.gameout.model;
 
-import com.gameout.network.GameoutUtils;
+import com.gameout.utils.GameoutUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
