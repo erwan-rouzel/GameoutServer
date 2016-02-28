@@ -26,8 +26,8 @@ public class Ball extends GameObject {
     }
 
     public void initSpeed() {
-        vx = (short) (10 + GameoutUtils.randomWithRange(0, 5));
-        vy = (short) (15 + GameoutUtils.randomWithRange(0, 5));
+        vx = (short) (5 + GameoutUtils.randomWithRange(0, 3));
+        vy = (short) (7 + GameoutUtils.randomWithRange(0, 3));
     }
 
     public void initPosition() {

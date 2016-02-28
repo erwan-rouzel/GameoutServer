@@ -8,13 +8,17 @@ import com.gameout.game.IGameLogic;
  */
 public class GameState extends GameObject {
     public int id;
+    public String roomId;
     public IGameLogic gameLogic;
     public Ball ball;
     public Team[] teams;
     public byte status;
+    public int numberOfRegisteredPlayers;
 
     public GameState(GameSession session) {
+        this.numberOfRegisteredPlayers = 0;
         this.id = session.id;
+        this.roomId = session.roomId;
         this.ball = new Ball();
         this.gameLogic = GameLogicManager.getGameLogicByType(session.gameType);
         this.teams = new  Team[3];
@@ -31,5 +35,17 @@ public class GameState extends GameObject {
 
     public void update() {
         this.gameLogic.update(this);
+    }
+
+    public void registerPlayer() {
+        numberOfRegisteredPlayers++;
+    }
+
+    public boolean allPlayersRegistered() {
+        return (numberOfRegisteredPlayers == getTotalNumberOfPlayers());
+    }
+
+    public int getTotalNumberOfPlayers() {
+        return (teams[0].players.length + teams[1].players.length + teams[2].players.length);
     }
 }

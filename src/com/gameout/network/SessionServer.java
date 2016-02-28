@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Collections;
 
 /**
  * Created by erwan on 21/11/2015.
@@ -58,12 +59,13 @@ public class SessionServer extends AbstractServer implements Runnable {
 
                     log(session.toString());
 
-                    if (!GameoutServer.gameStateList.containsKey(session.id)) {
+                    GameState gameStateForRoom = GameoutServer.getByRoom(session.roomId);
+                    if (gameStateForRoom == null) {
                         log("Session does not exist. Starting new game !");
                         gameInit = startGame(session);
                     } else {
                         log("Session already exist. Adding player to existing session.");
-                        gameInit = updateGame(session);
+                        gameInit = updateGame(session, gameStateForRoom);
                         client.close();
                     }
 
@@ -76,19 +78,41 @@ public class SessionServer extends AbstractServer implements Runnable {
         }
     }
 
-    public static GameInit startGame(GameSession session) {
+    public GameInit startGame(GameSession session) {
+
+        // TODO : optimize this computation of new key. What is done currently might not scale up well!
+        int gameSessionId;
+        if(GameoutServer.gameStateList.isEmpty()) {
+            gameSessionId = 0;
+            log("No session started yet, sessionId set to 0" + gameSessionId);
+        } else {
+            gameSessionId = Collections.max(Collections.list(GameoutServer.gameStateList.keys())) + 1;
+            log("Determine sessionId from max:" + gameSessionId);
+        }
+
+        session.id = gameSessionId;
         GameState state = new GameState(session);
-        GameoutServer.gameStateList.put(state.id, state);
-        return new GameInit(0, 0);
-    }
-
-    public static GameInit updateGame(GameSession session) {
-        GameState state = GameoutServer.gameStateList.get(session.id);
         state.status = GameStatus.RUNNING;
-        return new GameInit(1, 0);
+        GameoutServer.gameStateList.put(gameSessionId, state);
+
+        state.registerPlayer();
+
+        return new GameInit(session.roomId, "195.154.123.213", gameSessionId, 0, 0);
     }
 
-    public static void endGame(long sessionId) {
+    public GameInit updateGame(GameSession session, GameState state) {
+        log("Adding to session " + session.id + " with roomId=" + state.roomId);
+
+        state.registerPlayer();
+
+        if(state.allPlayersRegistered()) {
+            state.status = GameStatus.RUNNING;
+        }
+
+        return new GameInit(session.roomId, "195.154.123.213", session.id, 1, 0);
+    }
+
+    public void endGame(long sessionId) {
         GameoutServer.gameStateList.remove(sessionId);
     }
 }

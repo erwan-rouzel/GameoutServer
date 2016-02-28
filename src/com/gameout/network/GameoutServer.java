@@ -1,6 +1,8 @@
 package com.gameout.network;
 
 import com.gameout.model.GameState;
+
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 class GameoutServer {
@@ -90,5 +92,19 @@ class GameoutServer {
         new Thread(new SessionServer(9475)).start();
         new Thread(new MessageServer(9476)).start();
         new Thread(new StreamServer(9500)).start();
+    }
+
+    public static GameState getByRoom(String roomId) {
+        for(Map.Entry<Integer, GameState> entry : GameoutServer.gameStateList.entrySet()) {
+            Integer key = entry.getKey();
+            GameState gameState = entry.getValue();
+
+            if(gameState.roomId.equals(roomId)) {
+                LogHelper.log("ROOMID matching ?", roomId);
+                return gameState;
+            }
+        }
+
+        return null;
     }
 }
