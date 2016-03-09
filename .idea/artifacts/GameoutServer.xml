@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="GameoutServer">
+    <output-path>$PROJECT_DIR$/out/artifacts/GameoutServer</output-path>
+    <root id="archive" name="GameoutServer.jar">
+      <element id="module-output" name="GameoutServer" />
+      <element id="library" level="project" name="com.google.code.gson:gson:2.5" />
+    </root>
+  </artifact>
+</component>
