@@ -181,6 +181,7 @@
         <option value="$PROJECT_DIR$/src/com/gameout/network/SessionServer.java" />
         <option value="$PROJECT_DIR$/src/com/gameout/network/GameoutServer.java" />
         <option value="$PROJECT_DIR$/src/com/gameout/game/MonoPong.java" />
+        <option value="$PROJECT_DIR$/.idea/workspace.xml" />
       </list>
     </option>
   </component>
